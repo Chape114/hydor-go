@@ -52,6 +52,7 @@ export default function ArmaTuGo() {
           <h2 className="font-display text-[clamp(2.5rem,6vw,4rem)] leading-tight text-white mb-4">
             Armá tu GO
           </h2>
+
           <p className="text-white/50 font-body text-lg">
             ¿Qué necesitás resolver hoy?
           </p>
@@ -59,6 +60,7 @@ export default function ArmaTuGo() {
 
         <div className="grid md:grid-cols-3 gap-4 mb-12">
           <button
+            type="button"
             onClick={() => setSelected('pop')}
             className={`rounded-2xl p-6 text-center transition-all ${
               selected === 'pop'
@@ -71,6 +73,7 @@ export default function ArmaTuGo() {
           </button>
 
           <button
+            type="button"
             onClick={() => setSelected('crunch')}
             className={`rounded-2xl p-6 text-center transition-all ${
               selected === 'crunch'
@@ -83,6 +86,7 @@ export default function ArmaTuGo() {
           </button>
 
           <button
+            type="button"
             onClick={() => setSelected('ambos')}
             className={`rounded-2xl p-6 text-center transition-all ${
               selected === 'ambos'
@@ -95,7 +99,9 @@ export default function ArmaTuGo() {
           </button>
         </div>
 
-        <div className={`rounded-3xl p-8 md:p-12 border ${current.bg} ${current.border}`}>
+        <div
+          className={`rounded-3xl p-8 md:p-12 border ${current.bg} ${current.border}`}
+        >
           <div className="grid md:grid-cols-2 gap-10 items-center">
             <div className="flex justify-center items-center min-h-[260px]">
               {selected === 'ambos' ? (
@@ -105,6 +111,7 @@ export default function ArmaTuGo() {
                     alt="Hydor POP"
                     className="w-36 md:w-48 h-auto object-contain drop-shadow-2xl -rotate-6"
                   />
+
                   <img
                     src="/images/hydor-crunch.png"
                     alt="Hydor Crunch"
@@ -113,7 +120,11 @@ export default function ArmaTuGo() {
                 </div>
               ) : (
                 <img
-                  src={selected === 'pop' ? '/images/hydor-pop.png' : '/images/hydor-crunch.png'}
+                  src={
+                    selected === 'pop'
+                      ? '/images/hydor-pop.png'
+                      : '/images/hydor-crunch.png'
+                  }
                   alt={selected === 'pop' ? 'Hydor POP' : 'Hydor Crunch'}
                   className="w-44 md:w-64 h-auto object-contain drop-shadow-2xl"
                 />
@@ -121,7 +132,9 @@ export default function ArmaTuGo() {
             </div>
 
             <div>
-              <h3 className={`font-display text-3xl md:text-5xl leading-none mb-5 ${current.color}`}>
+              <h3
+                className={`font-display text-3xl md:text-5xl leading-none mb-5 ${current.color}`}
+              >
                 {current.title}
               </h3>
 
@@ -140,16 +153,14 @@ export default function ArmaTuGo() {
                 </a>
               ) : (
                 <a
-                  href={current.href}
+                  href={selected === 'pop' ? data.pop.href : data.crunch.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`inline-flex items-center gap-3 ${
-                    selected === 'pop'
-                      ? 'bg-[#b6f542]'
-                      : 'bg-[#5ce1f0]'
+                    selected === 'pop' ? 'bg-[#b6f542]' : 'bg-[#5ce1f0]'
                   } text-[#0a0a0a] font-semibold px-6 py-3 rounded-full text-base hover:opacity-90 transition-opacity`}
                 >
-                  {current.cta} →
+                  {selected === 'pop' ? data.pop.cta : data.crunch.cta} →
                 </a>
               )}
             </div>
