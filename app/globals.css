@@ -1,0 +1,189 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Brand colors */
+  --color-pop: #b6f542;
+  --color-pop-dark: #8fd400;
+  --color-crunch: #5ce1f0;
+  --color-crunch-dark: #00bcd4;
+  --color-dark: #0a0a0a;
+  --color-off-white: #f5f2ea;
+  --color-white: #ffffff;
+
+  /* Tokens */
+  --background: #0a0a0a;
+  --foreground: #f5f2ea;
+  --border: #2a2a2a;
+  --radius: 0.625rem;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+
+section {
+  scroll-margin-top: 96px;
+}
+
+@theme inline {
+  --font-sans: 'DM Sans', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-display: 'Londrina Solid', 'DM Sans', sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-pop: var(--color-pop);
+  --color-pop-dark: var(--color-pop-dark);
+  --color-crunch: var(--color-crunch);
+  --color-crunch-dark: var(--color-crunch-dark);
+  --color-dark: var(--color-dark);
+  --color-off-white: var(--color-off-white);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    overflow-x: hidden;
+  }
+}
+
+/* Ticker animation */
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-track {
+  animation: ticker 18s linear infinite;
+  white-space: nowrap;
+  display: flex;
+}
+
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* Floating sticker animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(-3deg); }
+  50% { transform: translateY(-12px) rotate(-3deg); }
+}
+
+@keyframes float2 {
+  0%, 100% { transform: translateY(0px) rotate(4deg); }
+  50% { transform: translateY(-10px) rotate(4deg); }
+}
+
+@keyframes float3 {
+  0%, 100% { transform: translateY(0px) rotate(-6deg); }
+  50% { transform: translateY(-8px) rotate(-6deg); }
+}
+
+.float-1 { animation: float 3.5s ease-in-out infinite; }
+.float-2 { animation: float2 4s ease-in-out infinite; }
+.float-3 { animation: float3 3s ease-in-out infinite; }
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Skew divider */
+.skew-divider {
+  clip-path: polygon(0 0, 100% 8%, 100% 100%, 0 92%);
+}
+
+.skew-top {
+  clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 100%);
+}
+
+/* Product image hover */
+.product-img {
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.4));
+}
+.product-img:hover {
+  transform: scale(1.06) translateY(-8px);
+}
+
+/* Decision card hover */
+.decision-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.decision-card:hover {
+  transform: scale(1.02) translateY(-4px);
+}
+
+/* CTA button */
+.cta-btn {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.cta-btn::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: rgba(255,255,255,0.15);
+  transform: skewX(-20deg);
+  transition: left 0.4s ease;
+}
+.cta-btn:hover::after {
+  left: 150%;
+}
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+
+/* Big display text */
+.font-display {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 900;
+}
+
+/* Diagonal split for hero */
+.hero-split-left {
+  clip-path: polygon(0 0, 53% 0, 47% 100%, 0 100%);
+}
+.hero-split-right {
+  clip-path: polygon(53% 0, 100% 0, 100% 100%, 47% 100%);
+}
+
+@media (max-width: 768px) {
+  .hero-split-left {
+    clip-path: polygon(0 0, 100% 0, 100% 53%, 0 47%);
+  }
+  .hero-split-right {
+    clip-path: polygon(0 53%, 100% 47%, 100% 100%, 0 100%);
+  }
+}
