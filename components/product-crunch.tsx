@@ -121,7 +121,7 @@ export default function ProductCrunch() {
               </div>
             </div>
             <Image
-              src="/images/crunch solo.png"
+              src="/images/crunch-solo.png"
               alt="Hydor Crunch topping proteico vegetal sabor natural"
               width={620}
               height={840}
