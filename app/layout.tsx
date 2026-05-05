@@ -6,6 +6,10 @@ export const metadata: Metadata = {
   description:
     'Hydor GO es la nueva línea de snacks y toppings proteicos. POP: snack vegetal listo para comer. Crunch: topping proteico para tus comidas. 11g de proteína, sin TACC.',
   generator: 'v0.app',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
 }
 
 export default function RootLayout({
