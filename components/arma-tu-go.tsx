@@ -246,7 +246,7 @@ export default function ArmaTuGo() {
                 <img
                   src={selected === 'pop' ? data.pop.image : data.crunch.image}
                   alt={selected === 'pop' ? 'Hydor POP' : 'Hydor Crunch'}
-                  className={`${current.imageClass} h-auto object-contain animate-go-product-single`}
+                  className={`${selected === 'pop' ? data.pop.imageClass : data.crunch.imageClass} h-auto object-contain animate-go-product-single`}
                 />
               )}
 
