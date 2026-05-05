@@ -31,20 +31,22 @@ export default function UGC() {
       title: 'Abrís. Picás. Seguís.',
       description:
         'El snack salado para esos momentos donde querés algo rico, práctico y con proteína.',
-      src: '/videos/hydor-pop.mp4',
+      src: 'https://www.youtube.com/embed/M6ye3DfrYGU?autoplay=1&mute=1&loop=1&playlist=M6ye3DfrYGU&playsinline=1&controls=1&rel=0&modestbranding=1',
       color: '#b6f542',
       badge: 'Snack salado',
       bgClass: 'border-[#b6f542]/25 bg-[#b6f542]/10',
+      titleAttr: 'Hydor POP en rutina real',
     },
     crunch: {
       label: 'CRUNCH',
       title: 'Lo sumás arriba.',
       description:
         'El topping crocante para mejorar bowls, yogures, ensaladas o comidas simples.',
-      src: '/videos/hydor-crunch.mp4',
+      src: 'https://www.youtube.com/embed/cxY5T1ScG7o?autoplay=1&mute=1&loop=1&playlist=cxY5T1ScG7o&playsinline=1&controls=1&rel=0&modestbranding=1',
       color: '#5ce1f0',
       badge: 'Topping proteico',
       bgClass: 'border-[#5ce1f0]/25 bg-[#5ce1f0]/10',
+      titleAttr: 'Hydor Crunch en rutina real',
     },
   }
 
@@ -89,7 +91,7 @@ export default function UGC() {
           <button
             type="button"
             onClick={() => setSelectedVideo('pop')}
-            className={`rounded-2xl px-4 py-4 text-center font-display text-2xl leading-none transition-all ${
+            className={`rounded-2xl px-4 py-4 text-center font-display text-2xl leading-none transition-all active:scale-[0.97] ${
               selectedVideo === 'pop'
                 ? 'bg-[#b6f542] text-[#0a0a0a]'
                 : 'bg-white/[0.06] text-white'
@@ -101,7 +103,7 @@ export default function UGC() {
           <button
             type="button"
             onClick={() => setSelectedVideo('crunch')}
-            className={`rounded-2xl px-4 py-4 text-center font-display text-2xl leading-none transition-all ${
+            className={`rounded-2xl px-4 py-4 text-center font-display text-2xl leading-none transition-all active:scale-[0.97] ${
               selectedVideo === 'crunch'
                 ? 'bg-[#5ce1f0] text-[#0a0a0a]'
                 : 'bg-white/[0.06] text-white'
@@ -114,7 +116,8 @@ export default function UGC() {
         {/* MOBILE selected video */}
         <div className="reveal md:hidden">
           <div
-            className={`relative rounded-[2rem] border p-4 overflow-hidden ${current.bgClass}`}
+            key={selectedVideo}
+            className={`relative rounded-[2rem] border p-4 overflow-hidden ${current.bgClass} animate-ugc-card-in`}
           >
             <div
               className="absolute top-0 left-0 w-24 h-24 rounded-full blur-3xl opacity-25"
@@ -144,18 +147,14 @@ export default function UGC() {
                 </div>
 
                 <div className="relative aspect-[9/16] rounded-[1.6rem] overflow-hidden border border-white/15 bg-black">
-                  <video
+                  <iframe
                     key={current.src}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="auto"
-                    controls
-                    className="w-full h-full object-cover"
-                  >
-                    <source src={current.src} type="video/mp4" />
-                  </video>
+                    src={current.src}
+                    title={current.titleAttr}
+                    className="w-full h-full"
+                    allow="autoplay; encrypted-media; picture-in-picture"
+                    allowFullScreen
+                  />
                 </div>
               </div>
             </div>
@@ -219,17 +218,13 @@ export default function UGC() {
                 </div>
 
                 <div className="relative aspect-[9/16] rounded-[2rem] overflow-hidden border border-white/15 bg-black">
-                  <video
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="auto"
-                    controls
-                    className="w-full h-full object-cover"
-                  >
-                    <source src="/videos/hydor-pop.mp4" type="video/mp4" />
-                  </video>
+                  <iframe
+                    src="https://www.youtube.com/embed/M6ye3DfrYGU?autoplay=1&mute=1&loop=1&playlist=M6ye3DfrYGU&playsinline=1&controls=1&rel=0&modestbranding=1"
+                    title="Hydor POP en rutina real"
+                    className="w-full h-full"
+                    allow="autoplay; encrypted-media; picture-in-picture"
+                    allowFullScreen
+                  />
                 </div>
               </div>
             </div>
@@ -271,17 +266,13 @@ export default function UGC() {
                 </div>
 
                 <div className="relative aspect-[9/16] rounded-[2rem] overflow-hidden border border-white/15 bg-black">
-                  <video
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="auto"
-                    controls
-                    className="w-full h-full object-cover"
-                  >
-                    <source src="/videos/hydor-crunch.mp4" type="video/mp4" />
-                  </video>
+                  <iframe
+                    src="https://www.youtube.com/embed/cxY5T1ScG7o?autoplay=1&mute=1&loop=1&playlist=cxY5T1ScG7o&playsinline=1&controls=1&rel=0&modestbranding=1"
+                    title="Hydor Crunch en rutina real"
+                    className="w-full h-full"
+                    allow="autoplay; encrypted-media; picture-in-picture"
+                    allowFullScreen
+                  />
                 </div>
               </div>
             </div>
@@ -317,6 +308,23 @@ export default function UGC() {
           </a>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes ugc-card-in {
+          from {
+            opacity: 0;
+            transform: translateY(12px) scale(0.985);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        .animate-ugc-card-in {
+          animation: ugc-card-in 420ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+      `}</style>
     </section>
   )
 }
