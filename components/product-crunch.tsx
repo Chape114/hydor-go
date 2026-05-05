@@ -93,11 +93,11 @@ export default function ProductCrunch() {
 
           <div className="reveal flex flex-wrap gap-4">
             <a
-              href="https://www.tiendanube.com"
+              href="https://www.hydor.com.ar/productos/hydorcrunch/"
               target="_blank"
               rel="noopener noreferrer"
               className="cta-btn inline-flex items-center gap-3 bg-[#0a0a0a] text-white font-semibold px-8 py-4 rounded-full text-base"
-              aria-label="Comprar Hydor Crunch en Tiendanube"
+              aria-label="Comprar Hydor Crunch en www.hydor.com.ar"
             >
               Comprar Hydor Crunch
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -108,7 +108,7 @@ export default function ProductCrunch() {
         </div>
 
         {/* Image side */}
-        <div className="reveal flex justify-center">
+        <div className="reveal flex justify-center items-center mt-10 md:mt-0">
           <div className="relative">
             <div className="float-1 absolute -top-4 -left-6 z-20">
               <div className="bg-[#0a0a0a] text-[#5ce1f0] font-display text-sm px-4 py-2 rounded-full rotate-[-7deg] shadow-xl whitespace-nowrap">
@@ -116,7 +116,7 @@ export default function ProductCrunch() {
               </div>
             </div>
             <div className="float-3 absolute bottom-10 -right-8 z-20">
-              <div className="bg-white text-[#0a0a0a] font-display text-sm px-4 py-2 rounded-full rotate-[5deg] shadow-xl whitespace-nowrap">
+              <div className="bg-white text-[#0a0a0a] font-display text-sm px-4 py-2 rounded-full rotate-[5deg]  whitespace-nowrap">
                 46 KCAL ⚡
               </div>
             </div>
@@ -125,7 +125,7 @@ export default function ProductCrunch() {
               alt="Hydor Crunch topping proteico vegetal sabor natural"
               width={620}
               height={840}
-              className="product-img drop-shadow-2xl w-[520px] h-[640px] md:w-[520px] md:h-[640px]"
+              className="w-[min(92vw,560px)] md:w-[520px] h-auto"
             />
           </div>
         </div>

@@ -5,6 +5,12 @@ import Lenis from 'lenis'
 
 export default function SmoothScroll({ children }: { children: ReactNode }) {
   useEffect(() => {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
+
+    if (isMobile) {
+      return
+    }
+
     const lenis = new Lenis({
       duration: 1.15,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -13,12 +19,14 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
       touchMultiplier: 1.4,
     })
 
+    let rafId: number
+
     function raf(time: number) {
       lenis.raf(time)
-      requestAnimationFrame(raf)
+      rafId = requestAnimationFrame(raf)
     }
 
-    const rafId = requestAnimationFrame(raf)
+    rafId = requestAnimationFrame(raf)
 
     const handleAnchorClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement
@@ -28,8 +36,6 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
 
       const href = anchor.getAttribute('href')
 
-      // Solo intercepta links internos tipo #seccion
-      // No toca links externos como Tiendanube
       if (!href || !href.startsWith('#') || href === '#') return
 
       const targetId = decodeURIComponent(href.replace('#', ''))

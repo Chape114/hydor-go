@@ -8,18 +8,32 @@ export default function Diferencial() {
   const [active, setActive] = useState(false)
 
   useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setActive(true)
+          observer.unobserve(entry.target)
         }
       },
-      { threshold: 0.18 }
+      {
+        threshold: 0.08,
+        rootMargin: '0px 0px -8% 0px',
+      }
     )
 
-    if (sectionRef.current) observer.observe(sectionRef.current)
+    observer.observe(section)
 
-    return () => observer.disconnect()
+    const fallback = window.setTimeout(() => {
+      setActive(true)
+    }, 900)
+
+    return () => {
+      observer.disconnect()
+      window.clearTimeout(fallback)
+    }
   }, [])
 
   const rowOne = [
@@ -27,9 +41,25 @@ export default function Diferencial() {
     'Proteína vegetal de arveja',
     'Sin gluten',
     'Bajo en calorías',
+    'Snack salado con proteína',
+    'Proteína vegetal de arveja',
+    'Sin gluten',
+    'Bajo en calorías',
+    'Snack salado con proteína',
+    'Proteína vegetal de arveja',
+    'Sin gluten',
+    'Bajo en calorías',
   ]
 
   const rowTwo = [
+    'Sin preparación',
+    'Sabor real',
+    'No sabe a suplemento',
+    'Para la vida real',
+    'Sin preparación',
+    'Sabor real',
+    'No sabe a suplemento',
+    'Para la vida real',
     'Sin preparación',
     'Sabor real',
     'No sabe a suplemento',
@@ -42,6 +72,27 @@ export default function Diferencial() {
       className="relative min-h-screen bg-[#0a0a0a] py-24 md:py-32 overflow-hidden"
       aria-labelledby="diferencial-heading"
     >
+      {/* Keyframes inline para evitar problemas con style jsx / Tailwind */}
+      <style>{`
+        @keyframes go-marquee-left-inline {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+
+        @keyframes go-marquee-right-inline {
+          0% {
+            transform: translateX(-50%);
+          }
+          100% {
+            transform: translateX(0);
+          }
+        }
+      `}</style>
+
       {/* Fondo */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-24 -left-24 w-[420px] h-[420px] rounded-full bg-[#b6f542]/10 blur-3xl" />
@@ -53,7 +104,9 @@ export default function Diferencial() {
         {/* Claim central */}
         <div
           className={`text-center px-6 mb-14 transition-all duration-1000 ${
-            active ? 'opacity-100 scale-100' : 'opacity-0 scale-[0.98]'
+            active
+              ? 'opacity-100 scale-100'
+              : 'opacity-100 md:opacity-0 scale-100 md:scale-[0.98]'
           }`}
           style={{ transitionDelay: '120ms' }}
         >
@@ -75,13 +128,20 @@ export default function Diferencial() {
         {/* Pills full width */}
         <div
           className={`relative z-10 space-y-4 md:space-y-5 mb-16 md:mb-20 transition-all duration-1000 ${
-            active ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            active
+              ? 'opacity-100 translate-y-0'
+              : 'opacity-100 md:opacity-0 translate-y-0 md:translate-y-8'
           }`}
           style={{ transitionDelay: '260ms' }}
         >
-          <div className="w-screen overflow-hidden">
-            <div className="flex gap-3 w-max animate-marquee">
-              {[...rowOne, ...rowOne, ...rowOne].map((item, index) => (
+          <div className="relative w-screen overflow-hidden">
+            <div
+              className="flex gap-3 w-max will-change-transform"
+              style={{
+                animation: 'go-marquee-left-inline 18s linear infinite',
+              }}
+            >
+              {rowOne.map((item, index) => (
                 <span
                   key={`${item}-${index}`}
                   className="shrink-0 rounded-full border border-[#b6f542]/25 bg-[#b6f542]/10 px-5 md:px-7 py-3 md:py-4 text-[#b6f542] text-sm md:text-lg font-semibold whitespace-nowrap"
@@ -92,9 +152,14 @@ export default function Diferencial() {
             </div>
           </div>
 
-          <div className="w-screen overflow-hidden">
-            <div className="flex gap-3 w-max animate-marquee-reverse">
-              {[...rowTwo, ...rowTwo, ...rowTwo].map((item, index) => (
+          <div className="relative w-screen overflow-hidden">
+            <div
+              className="flex gap-3 w-max will-change-transform"
+              style={{
+                animation: 'go-marquee-right-inline 20s linear infinite',
+              }}
+            >
+              {rowTwo.map((item, index) => (
                 <span
                   key={`${item}-${index}`}
                   className="shrink-0 rounded-full border border-[#5ce1f0]/25 bg-[#5ce1f0]/10 px-5 md:px-7 py-3 md:py-4 text-[#5ce1f0] text-sm md:text-lg font-semibold whitespace-nowrap"
@@ -109,7 +174,9 @@ export default function Diferencial() {
         {/* Fórmula final */}
         <div
           className={`max-w-6xl mx-auto px-6 transition-all duration-1000 ${
-            active ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            active
+              ? 'opacity-100 translate-y-0'
+              : 'opacity-100 md:opacity-0 translate-y-0 md:translate-y-8'
           }`}
           style={{ transitionDelay: '420ms' }}
         >
@@ -180,34 +247,6 @@ export default function Diferencial() {
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes marquee {
-          from {
-            transform: translateX(0);
-          }
-          to {
-            transform: translateX(-33.333%);
-          }
-        }
-
-        @keyframes marquee-reverse {
-          from {
-            transform: translateX(-33.333%);
-          }
-          to {
-            transform: translateX(0);
-          }
-        }
-
-        .animate-marquee {
-          animation: marquee 24s linear infinite;
-        }
-
-        .animate-marquee-reverse {
-          animation: marquee-reverse 26s linear infinite;
-        }
-      `}</style>
     </section>
   )
 }

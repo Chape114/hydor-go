@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import SmoothScroll from '@/components/smooth-scroll'
 
 export const metadata: Metadata = {
   title: 'Hydor GO — Pura proteína para tu rutina',
@@ -24,8 +23,9 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
+
       <body className="font-body antialiased">
-        <SmoothScroll>{children}</SmoothScroll>
+        {children}
       </body>
     </html>
   )

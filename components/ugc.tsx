@@ -2,9 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react'
 
+type VideoKey = 'pop' | 'crunch'
+
 export default function UGC() {
   const sectionRef = useRef<HTMLDivElement>(null)
-  const [scrollPosition, setScrollPosition] = useState(0)
+  const [selectedVideo, setSelectedVideo] = useState<VideoKey>('pop')
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -17,129 +19,300 @@ export default function UGC() {
       },
       { threshold: 0.15 }
     )
+
     sectionRef.current?.querySelectorAll('.reveal').forEach((el) => observer.observe(el))
+
     return () => observer.disconnect()
   }, [])
 
-  const videos = [
-    { id: 'snap1', tag: 'Snack en oficina', duration: '0:15' },
-    { id: 'snap2', tag: 'Entre comidas', duration: '0:18' },
-    { id: 'snap3', tag: 'Ensalada con crunch', duration: '0:22' },
-    { id: 'snap4', tag: 'Bowl proteico', duration: '0:20' },
-    { id: 'snap5', tag: 'Para llevar', duration: '0:16' },
-    { id: 'snap6', tag: 'Meal prep', duration: '0:25' },
-  ]
-
-  const handleScroll = (direction: 'left' | 'right') => {
-    const container = sectionRef.current?.querySelector('[data-scroll-container]')
-    if (container) {
-      const scrollAmount = 300
-      container.scrollBy({
-        left: direction === 'right' ? scrollAmount : -scrollAmount,
-        behavior: 'smooth'
-      })
-    }
+  const videos = {
+    pop: {
+      label: 'POP',
+      title: 'Abrís. Picás. Seguís.',
+      description:
+        'El snack salado para esos momentos donde querés algo rico, práctico y con proteína.',
+      src: '/videos/hydor-pop.mp4',
+      color: '#b6f542',
+      badge: 'Snack salado',
+      bgClass: 'border-[#b6f542]/25 bg-[#b6f542]/10',
+    },
+    crunch: {
+      label: 'CRUNCH',
+      title: 'Lo sumás arriba.',
+      description:
+        'El topping crocante para mejorar bowls, yogures, ensaladas o comidas simples.',
+      src: '/videos/hydor-crunch.mp4',
+      color: '#5ce1f0',
+      badge: 'Topping proteico',
+      bgClass: 'border-[#5ce1f0]/25 bg-[#5ce1f0]/10',
+    },
   }
+
+  const current = videos[selectedVideo]
 
   return (
     <section
       ref={sectionRef}
-      className="bg-[#0a0a0a] py-24 md:py-32 px-6 overflow-hidden"
+      className="relative bg-[#0a0a0a] py-20 md:py-32 px-4 md:px-6 overflow-hidden"
       aria-labelledby="ugc-heading"
     >
-      <div className="max-w-6xl mx-auto">
+      {/* Fondo */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-10 left-[-12%] w-[360px] h-[360px] rounded-full bg-[#b6f542]/10 blur-3xl" />
+        <div className="absolute bottom-10 right-[-12%] w-[420px] h-[420px] rounded-full bg-[#5ce1f0]/10 blur-3xl" />
+      </div>
+
+      <div className="relative z-10 max-w-6xl mx-auto">
         {/* Header */}
-        <div className="reveal text-center mb-16">
+        <div className="reveal text-center mb-10 md:mb-16">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-xs font-semibold tracking-widest uppercase text-white/60 mb-6">
+            <span className="w-2 h-2 rounded-full bg-[#b6f542]" />
+            UGC / Uso real
+            <span className="w-2 h-2 rounded-full bg-[#5ce1f0]" />
+          </span>
+
           <h2
             id="ugc-heading"
-            className="font-display text-[clamp(2.5rem,6vw,4rem)] leading-tight text-white mb-4"
+            className="font-display text-[clamp(2.5rem,6vw,4.5rem)] leading-tight text-white mb-4"
           >
-            Mirá cómo entra en una rutina real
+            Mirá cómo entra
+            <br className="hidden md:block" /> en una rutina real
           </h2>
-          <p className="text-white/50 font-body text-lg">
-            Sin vueltas. Sin recetas complejas. Así se usa en el día a día.
+
+          <p className="text-white/50 font-body text-base md:text-lg max-w-2xl mx-auto">
+            Sin vueltas. Sin recetas complejas. Así se usa Hydor GO en el día a día.
           </p>
         </div>
 
-        {/* Carousel container */}
-        <div className="reveal relative">
-          {/* Scroll container */}
-          <div
-            data-scroll-container
-            className="flex gap-4 overflow-x-auto scroll-smooth pb-4"
-            style={{ scrollBehavior: 'smooth' }}
+        {/* MOBILE controls */}
+        <div className="reveal md:hidden grid grid-cols-2 gap-3 mb-6">
+          <button
+            type="button"
+            onClick={() => setSelectedVideo('pop')}
+            className={`rounded-2xl px-4 py-4 text-center font-display text-2xl leading-none transition-all ${
+              selectedVideo === 'pop'
+                ? 'bg-[#b6f542] text-[#0a0a0a]'
+                : 'bg-white/[0.06] text-white'
+            }`}
           >
-            {videos.map((video) => (
-              <div
-                key={video.id}
-                className="flex-shrink-0 w-64 md:w-72 group cursor-pointer"
-              >
-                {/* Video card */}
-                <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-[#b6f542]/10 to-[#5ce1f0]/10 border border-white/10 hover:border-white/20 transition-all duration-300 h-96">
-                  {/* Placeholder video frame */}
-                  <div className="w-full h-full bg-gradient-to-b from-[#b6f542]/20 to-[#5ce1f0]/20 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-white/20 transition-colors">
-                        <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-                        </svg>
-                      </div>
-                      <p className="text-white/70 font-body text-sm">{video.duration}</p>
-                    </div>
-                  </div>
+            POP
+          </button>
 
-                  {/* Duration badge */}
-                  <div className="absolute top-4 right-4 bg-[#0a0a0a]/80 text-white text-xs px-3 py-1 rounded-full">
-                    {video.duration}
-                  </div>
+          <button
+            type="button"
+            onClick={() => setSelectedVideo('crunch')}
+            className={`rounded-2xl px-4 py-4 text-center font-display text-2xl leading-none transition-all ${
+              selectedVideo === 'crunch'
+                ? 'bg-[#5ce1f0] text-[#0a0a0a]'
+                : 'bg-white/[0.06] text-white'
+            }`}
+          >
+            CRUNCH
+          </button>
+        </div>
 
-                  {/* Tag badge */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#0a0a0a] to-transparent p-4 pt-8">
-                    <span className="inline-block bg-[#b6f542]/20 text-[#b6f542] text-xs font-semibold px-3 py-1 rounded-full">
-                      {video.tag}
-                    </span>
+        {/* MOBILE selected video */}
+        <div className="reveal md:hidden">
+          <div
+            className={`relative rounded-[2rem] border p-4 overflow-hidden ${current.bgClass}`}
+          >
+            <div
+              className="absolute top-0 left-0 w-24 h-24 rounded-full blur-3xl opacity-25"
+              style={{ backgroundColor: current.color }}
+            />
+
+            <div
+              className="absolute bottom-0 right-0 w-28 h-28 rounded-full blur-3xl opacity-25"
+              style={{ backgroundColor: current.color }}
+            />
+
+            <div className="relative z-10 flex justify-center">
+              <div className="relative w-full max-w-[270px]">
+                <div className="absolute -left-5 top-12 z-20 hidden min-[390px]:block">
+                  <div
+                    className="rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest rotate-[-8deg]"
+                    style={{ backgroundColor: current.color, color: '#0a0a0a' }}
+                  >
+                    {current.badge}
                   </div>
                 </div>
+
+                <div className="absolute -right-5 bottom-16 z-20 hidden min-[390px]:block">
+                  <div className="rounded-full bg-white text-[#0a0a0a] px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest rotate-[7deg]">
+                    Rutina real
+                  </div>
+                </div>
+
+                <div className="relative aspect-[9/16] rounded-[1.6rem] overflow-hidden border border-white/15 bg-black">
+                  <video
+                    key={current.src}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="auto"
+                    controls
+                    className="w-full h-full object-cover"
+                  >
+                    <source src={current.src} type="video/mp4" />
+                  </video>
+                </div>
               </div>
-            ))}
+            </div>
+
+            <div className="relative z-10 text-center mt-6">
+              <span
+                className="inline-flex rounded-full px-3 py-1 text-xs font-semibold tracking-widest uppercase mb-3"
+                style={{ backgroundColor: current.color, color: '#0a0a0a' }}
+              >
+                {current.label}
+              </span>
+
+              <h3 className="font-display text-4xl leading-none text-white mb-3">
+                {current.title}
+              </h3>
+
+              <p className="text-white/60 text-sm leading-relaxed max-w-sm mx-auto">
+                {current.description}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* DESKTOP: dos bloques grandes */}
+        <div className="reveal hidden md:grid grid-cols-2 gap-8 lg:gap-12 items-start">
+          {/* POP */}
+          <div className="relative rounded-[2.5rem] border border-[#b6f542]/25 bg-[#b6f542]/10 p-8 overflow-hidden">
+            <div className="absolute -top-20 -left-20 w-64 h-64 rounded-full bg-[#b6f542]/20 blur-3xl" />
+            <div className="absolute -bottom-20 -right-20 w-64 h-64 rounded-full bg-[#b6f542]/10 blur-3xl" />
+
+            <div className="relative z-10 grid lg:grid-cols-[1fr_auto] gap-8 items-center">
+              <div>
+                <span className="inline-flex rounded-full bg-[#b6f542] text-[#0a0a0a] px-4 py-2 text-xs font-bold uppercase tracking-widest mb-5">
+                  POP
+                </span>
+
+                <h3 className="font-display text-5xl lg:text-6xl leading-none text-white mb-4">
+                  Abrís.
+                  <br />
+                  Picás.
+                  <br />
+                  Seguís.
+                </h3>
+
+                <p className="text-white/60 text-base leading-relaxed max-w-sm">
+                  El snack salado para esos momentos donde querés algo rico, práctico y con proteína.
+                </p>
+              </div>
+
+              <div className="relative w-[250px] lg:w-[300px]">
+                <div className="absolute -left-8 top-16 z-20">
+                  <div className="rounded-full bg-[#b6f542] text-[#0a0a0a] px-4 py-2 text-xs font-bold uppercase tracking-widest rotate-[-8deg]">
+                    Snack salado
+                  </div>
+                </div>
+
+                <div className="absolute -right-8 bottom-20 z-20">
+                  <div className="rounded-full bg-white text-[#0a0a0a] px-4 py-2 text-xs font-bold uppercase tracking-widest rotate-[7deg]">
+                    Sin preparar
+                  </div>
+                </div>
+
+                <div className="relative aspect-[9/16] rounded-[2rem] overflow-hidden border border-white/15 bg-black">
+                  <video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="auto"
+                    controls
+                    className="w-full h-full object-cover"
+                  >
+                    <source src="/videos/hydor-pop.mp4" type="video/mp4" />
+                  </video>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Scroll buttons */}
-          <button
-            onClick={() => handleScroll('left')}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 z-10 bg-white/10 hover:bg-white/20 rounded-full p-3 transition-colors"
-            aria-label="Scroll left"
-          >
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
+          {/* CRUNCH */}
+          <div className="relative rounded-[2.5rem] border border-[#5ce1f0]/25 bg-[#5ce1f0]/10 p-8 overflow-hidden">
+            <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-[#5ce1f0]/20 blur-3xl" />
+            <div className="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-[#5ce1f0]/10 blur-3xl" />
 
-          <button
-            onClick={() => handleScroll('right')}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 z-10 bg-white/10 hover:bg-white/20 rounded-full p-3 transition-colors"
-            aria-label="Scroll right"
-          >
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
+            <div className="relative z-10 grid lg:grid-cols-[1fr_auto] gap-8 items-center">
+              <div>
+                <span className="inline-flex rounded-full bg-[#5ce1f0] text-[#0a0a0a] px-4 py-2 text-xs font-bold uppercase tracking-widest mb-5">
+                  CRUNCH
+                </span>
+
+                <h3 className="font-display text-5xl lg:text-6xl leading-none text-white mb-4">
+                  Lo sumás
+                  <br />
+                  arriba.
+                </h3>
+
+                <p className="text-white/60 text-base leading-relaxed max-w-sm">
+                  El topping crocante para mejorar bowls, yogures, ensaladas o comidas simples.
+                </p>
+              </div>
+
+              <div className="relative w-[250px] lg:w-[300px]">
+                <div className="absolute -left-8 top-16 z-20">
+                  <div className="rounded-full bg-[#5ce1f0] text-[#0a0a0a] px-4 py-2 text-xs font-bold uppercase tracking-widest rotate-[-8deg]">
+                    Topping
+                  </div>
+                </div>
+
+                <div className="absolute -right-8 bottom-20 z-20">
+                  <div className="rounded-full bg-white text-[#0a0a0a] px-4 py-2 text-xs font-bold uppercase tracking-widest rotate-[7deg]">
+                    A tus comidas
+                  </div>
+                </div>
+
+                <div className="relative aspect-[9/16] rounded-[2rem] overflow-hidden border border-white/15 bg-black">
+                  <video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="auto"
+                    controls
+                    className="w-full h-full object-cover"
+                  >
+                    <source src="/videos/hydor-crunch.mp4" type="video/mp4" />
+                  </video>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* CTA */}
-        <div className="reveal text-center mt-16">
+        <div className="reveal text-center mt-12 md:mt-16">
           <p className="text-white/50 font-body text-base mb-6">
-            ¿Vos también sumaste Hydor a tu rutina?
+            ¿Vos también sumaste Hydor GO a tu rutina?
           </p>
+
           <a
             href="https://www.instagram.com"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-[#b6f542] font-semibold hover:text-[#b6f542]/80 transition-colors"
           >
-            Comparte tu momento
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            Compartí tu momento
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M13 7l5 5m0 0l-5 5m5-5H6"
+              />
             </svg>
           </a>
         </div>

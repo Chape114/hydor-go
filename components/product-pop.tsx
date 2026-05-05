@@ -118,11 +118,11 @@ export default function ProductPop() {
 
           <div className="reveal flex flex-wrap gap-4">
             <a
-              href="https://www.tiendanube.com"
+              href="https://www.hydor.com.ar/productos/hydorpop"
               target="_blank"
               rel="noopener noreferrer"
               className="cta-btn inline-flex items-center gap-3 bg-[#0a0a0a] text-white font-semibold px-8 py-4 rounded-full text-base"
-              aria-label="Comprar Hydor POP en Tiendanube"
+              aria-label="Comprar Hydor POP en www.hydor.com.ar"
             >
               Comprar Hydor POP
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none">

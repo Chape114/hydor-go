@@ -12,20 +12,22 @@ import DecisionInteractive from '@/components/decision-interactive'
 import UGC from '@/components/ugc'
 import ArmaTuGo from '@/components/arma-tu-go'
 import ClosingCta from '@/components/closing-cta'
+import TestClick from '@/components/test-click'
 
 export default function Page() {
   return (
-    <main>
+    <main className="relative bg-[#0a0a0a]">
       <Hero />
       <Decision />
+      <UGC />
       <ProductPop />
       <Ticker />
       <ProductCrunch />
       <WhatIsGo />
       <Diferencial />
-      <UGC />
       <ArmaTuGo />
       <ClosingCta />
     </main>
   )
 }
+

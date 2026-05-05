@@ -65,7 +65,7 @@ export default function ClosingCta() {
         {/* CTA buttons */}
         <div className="reveal flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
-            href="https://www.tiendanube.com"
+            href="https://www.hydor.com.ar/productos/hydorpop/"
             target="_blank"
             rel="noopener noreferrer"
             className="cta-btn inline-flex items-center gap-3 bg-[#b6f542] text-[#0a0a0a] font-display text-base px-8 py-4 rounded-full w-full sm:w-auto justify-center"
@@ -77,7 +77,7 @@ export default function ClosingCta() {
             </svg>
           </a>
           <a
-            href="https://www.tiendanube.com"
+            href="https://www.hydor.com.ar/productos/hydorcrunch/"
             target="_blank"
             rel="noopener noreferrer"
             className="cta-btn inline-flex items-center gap-3 bg-[#5ce1f0] text-[#0a0a0a] font-display text-base px-8 py-4 rounded-full w-full sm:w-auto justify-center"
@@ -91,7 +91,7 @@ export default function ClosingCta() {
         </div>
 
         <p className="reveal mt-8 text-white/20 text-sm font-body">
-          Tienda oficial Hydor · tiendanube.com
+          Tienda oficial Hydor · www.hydor.com.ar
         </p>
       </div>
 

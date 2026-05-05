@@ -128,7 +128,7 @@ export default function DecisionInteractive() {
                         <p>✓ Listo para comer, directo</p>
                       </div>
                       <a
-                        href="https://www.tiendanube.com"
+                        href="https://www.hydor.com.ar/productos/hydorpop"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-3 bg-[#b6f542] text-[#0a0a0a] font-semibold px-6 py-3 rounded-full text-base hover:bg-[#b6f542]/90 transition-colors"
@@ -151,7 +151,7 @@ export default function DecisionInteractive() {
                         <p>✓ No altera sabor ni textura</p>
                       </div>
                       <a
-                        href="https://www.tiendanube.com"
+                        href="https://www.hydor.com.ar/productos/hydorcrunch/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-3 bg-[#5ce1f0] text-[#0a0a0a] font-semibold px-6 py-3 rounded-full text-base hover:bg-[#5ce1f0]/90 transition-colors"

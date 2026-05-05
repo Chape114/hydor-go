@@ -41,13 +41,32 @@ function ProgressCircle({
   color,
   progress,
   active,
-}: Metric & { active: boolean }) {
+  delay = 0,
+}: Metric & { active: boolean; delay?: number }) {
+  const [animatedProgress, setAnimatedProgress] = useState(0)
+
   const radius = 84
   const stroke = 11
   const normalizedRadius = radius - stroke / 2
   const circumference = normalizedRadius * 2 * Math.PI
+
   const strokeDashoffset =
-    circumference - ((active ? progress : 0) / 100) * circumference
+    circumference - (animatedProgress / 100) * circumference
+
+  useEffect(() => {
+    if (!active) {
+      setAnimatedProgress(0)
+      return
+    }
+
+    const timeout = window.setTimeout(() => {
+      requestAnimationFrame(() => {
+        setAnimatedProgress(progress)
+      })
+    }, delay)
+
+    return () => window.clearTimeout(timeout)
+  }, [active, progress, delay])
 
   return (
     <div className="relative flex flex-col items-center justify-center">
@@ -76,10 +95,9 @@ function ProgressCircle({
             strokeWidth={stroke}
             strokeLinecap="round"
             strokeDasharray={`${circumference} ${circumference}`}
+            strokeDashoffset={strokeDashoffset}
             style={{
-              strokeDashoffset,
-              transition:
-                'stroke-dashoffset 1.8s cubic-bezier(0.22, 1, 0.36, 1)',
+              transition: 'stroke-dashoffset 1.8s cubic-bezier(0.22, 1, 0.36, 1)',
             }}
             r={normalizedRadius}
             cx={radius}
@@ -113,16 +131,28 @@ export default function GoStats() {
   const [active, setActive] = useState(false)
 
   useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setActive(true)
+          setActive(false)
+
+          window.setTimeout(() => {
+            setActive(true)
+          }, 180)
+
+          observer.unobserve(entry.target)
         }
       },
-      { threshold: 0.25 }
+      {
+        threshold: 0.05,
+        rootMargin: '0px 0px -10% 0px',
+      }
     )
 
-    if (sectionRef.current) observer.observe(sectionRef.current)
+    observer.observe(section)
 
     return () => observer.disconnect()
   }, [])
@@ -158,11 +188,10 @@ export default function GoStats() {
 
         {/* Fórmula visual */}
         <div className="relative">
-          {/* Línea conectora desktop */}
           <div className="hidden md:block absolute top-[120px] left-[16%] right-[16%] h-px bg-gradient-to-r from-[#b6f542]/0 via-white/20 to-[#5ce1f0]/0" />
 
           <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr_auto_1fr] gap-8 md:gap-5 items-center">
-            <ProgressCircle {...metrics[0]} active={active} />
+            <ProgressCircle {...metrics[0]} active={active} delay={0} />
 
             <div className="hidden md:flex items-center justify-center">
               <span
@@ -180,7 +209,7 @@ export default function GoStats() {
               </span>
             </div>
 
-            <ProgressCircle {...metrics[1]} active={active} />
+            <ProgressCircle {...metrics[1]} active={active} delay={180} />
 
             <div className="hidden md:flex items-center justify-center">
               <span
@@ -198,31 +227,26 @@ export default function GoStats() {
               </span>
             </div>
 
-            <ProgressCircle {...metrics[2]} active={active} />
+            <ProgressCircle {...metrics[2]} active={active} delay={360} />
           </div>
         </div>
 
         {/* Resultado */}
-        <div
-          className={`mt-16 md:mt-20 text-center transition-all duration-1000 ${
-            active ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-          }`}
-          style={{ transitionDelay: '850ms' }}
-        >
-          <div className="inline-flex flex-col md:flex-row items-center justify-center gap-3 md:gap-5 rounded-full md:rounded-[999px] border border-white/10 bg-white/[0.04] px-8 py-5 md:px-10 md:py-6 backdrop-blur-sm">
-            <span className="font-display text-3xl md:text-5xl text-white leading-none">
+        <div className="mt-16 md:mt-20 text-center">
+          <div className="w-full md:w-auto inline-flex flex-col md:flex-row items-center justify-center gap-4 md:gap-5 rounded-[2rem] md:rounded-[999px] border border-white/10 bg-white/[0.04] px-6 py-7 md:px-10 md:py-6 backdrop-blur-sm">
+            <span className="font-display text-4xl md:text-5xl text-white leading-none">
               Proteína real.
             </span>
 
             <span className="hidden md:block w-2 h-2 rounded-full bg-[#b6f542]" />
 
-            <span className="font-display text-3xl md:text-5xl text-white leading-none">
+            <span className="font-display text-4xl md:text-5xl text-white leading-none">
               Formato real.
             </span>
 
             <span className="hidden md:block w-2 h-2 rounded-full bg-[#5ce1f0]" />
 
-            <span className="font-display text-3xl md:text-5xl text-white leading-none">
+            <span className="font-display text-4xl md:text-5xl text-white leading-none">
               Vida real.
             </span>
           </div>
