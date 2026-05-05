@@ -25,7 +25,7 @@ export default function ProductCrunch() {
     { emoji: '🥗', text: 'Ensaladas' },
     { emoji: '🍚', text: 'Bowls de arroz' },
     { emoji: '🍳', text: 'Huevos revueltos' },
-    { emoji: '🫙', text: 'Yogur o avena' },
+    { emoji: '🫙', text: 'Yogur' },
     { emoji: '🍝', text: 'Pastas' },
     { emoji: '🥘', text: 'Sopas y guisos' },
   ]
