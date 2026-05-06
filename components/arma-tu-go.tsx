@@ -70,7 +70,7 @@ export default function ArmaTuGo() {
       color: 'text-white',
       button: 'bg-white text-[#0a0a0a]',
       cta: 'Comprar Pack GO',
-      href: 'https://www.hydor.com.ar/productos/pack-go/',
+      href: 'https://www.hydor.com.ar/productos/pack-go-3-pop-4-crunch-t2y8d/',
     },
   }
 
